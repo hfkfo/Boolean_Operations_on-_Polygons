@@ -63,7 +63,7 @@ public:
 	Segment segment(unsigned j ,unsigned p) const { 
 		return (p == contours[j].size() - 1) ? Segment (contours[j].back (), contours[j].front ()) : Segment (contours[j][p], contours[j][p+1]); 
 	}
-    Polygon(){};
+    Polygon(){}
     Polygon(vector<vector<pair<double, double>>> polygons){
         for(auto i : polygons){
             vector<Point> polygon;
@@ -72,7 +72,10 @@ public:
 			}
             contours.push_back(polygon);
         }
-    };
+    }
+	bool is_empty() const{
+		return contours.empty();
+	}
 	
 };
 class Boolean_OP{
@@ -82,7 +85,6 @@ public:
     ~Boolean_OP(){};
 	void create_SweepEvent();
     void cutting_edge();
-    void selecting_edge();
     void joining_edge();
 	void made_result(Polygon& p);
 	

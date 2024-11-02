@@ -1,14 +1,15 @@
 CC = g++
-CXXFLAGS = -std=c++11 -Wall -Wextra -O3
+CXXFLAGS = -O3 -Wall -shared -std=c++11 -fPIC `python3 -m pybind11 --includes`
+OBJ = _BOOLEAN_OP.so
+all: $(OBJ)
 
-all: main
+_BOOLEAN_OP.so: src/_BOOLEAN_OP.cpp include/BOOLEAN_OP.hpp
+	$(CXX) $(CXXFLAGS) $<  -I include `python3-config --includes --ldflags` -o $@  -lblas -lmkl_rt
 
-main: main.cpp BOOLEAN_OP.cpp BOOLEAN_OP.hpp
-	$(CXX) $(CXXFLAGS) -o $@ $^
 
-run: main
-	./main
-
+test:
+	python3 -m pytest -v
 
 clean:
-	-rm -f *.o main 
+	rm -rf *.so __pycache__ .pytest* 
+

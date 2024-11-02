@@ -1,4 +1,8 @@
 #include "BOOLEAN_OP.hpp"
+#include <pybind11/stl.h>
+#include<pybind11/pybind11.h>
+
+
 int findIntersection(const Segment& seg0, const Segment& seg1, Point& pi0, Point& pi1)
 {
 	const Point& p0 = seg0.begin();
@@ -399,4 +403,17 @@ void Boolean_OP::made_result(Polygon& p){
 			contour.push_back(*it2);
 		p.contours.push_back(contour);
 	}
+}
+
+PYBIND11_MODULE(_BOOLEAN_OP, m){
+    pybind11::class_<Boolean_OP>(m, "Boolean_OP")
+        .def(pybind11::init<Polygon , Polygon ,int >())
+        .def("create_SweepEvent", &Boolean_OP::create_SweepEvent)
+        .def("cutting_edge", &Boolean_OP::cutting_edge)
+        .def("joining_edge", &Boolean_OP::joining_edge)
+		.def("made_result", &Boolean_OP::made_result);
+    pybind11::class_<Polygon>(m, "Polygon")
+        .def(pybind11::init<vector<vector<pair<double, double>>>>())
+		.def(pybind11::init<>())
+		.def("is_empty", &Polygon::is_empty);
 }
