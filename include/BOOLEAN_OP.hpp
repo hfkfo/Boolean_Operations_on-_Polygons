@@ -60,6 +60,10 @@ public:
 class Polygon{
 public:
     vector<vector<Point>> contours = {};
+
+	vector<vector<Point>> get_polygons() const{
+		return contours;
+	}
 	Segment segment(unsigned j ,unsigned p) const { 
 		return (p == contours[j].size() - 1) ? Segment (contours[j].back (), contours[j].front ()) : Segment (contours[j][p], contours[j][p+1]); 
 	}
