@@ -7,11 +7,46 @@ def is_inner_polygon(inner, outer):
     outer_path = Path(outer)
     return all(outer_path.contains_point(point) for point in inner)
 
-p1 = P([[(2.0,3.0),(8.0,3.0),(8.0,7.0),(2.0,7.0)],[(3.0,4.0),(5.0,4.0),(5.0,6.0),(3.0,6.0)]])
-p2 = P([[(4.0,1.0),(7.0,1.0),(7.0,5.0),(4.0,5.0)]])
+current_polygon = []
+operation = None
+with open('input.txt', 'r') as file:
+    content = file.read()
+    lines = content.strip().split('\n')
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+        if line.startswith('P1'):
+            continue
+        if line.startswith('P2'):
+            if current_polygon:
+                poly1 = current_polygon
+                current_polygon = []
+                
+        elif line.startswith('OP'):
+            operation = line.split(' ')[1]
+        else:
+            points = line.strip('()').split('),(')
+            contour = [(float(p.split(',')[0]), float(p.split(',')[1])) for p in points]
+            current_polygon.append(contour)
+
+poly2 = current_polygon
+
+
+p1 = P(poly1)
+p2 = P(poly2)
+
+if operation == 'union':
+    op = 0
+elif operation == 'intersection':
+    op = 1
+elif operation == 'difference':
+    op = 2
+else:
+    op = 3
 
 result = P()
-BOP = Boolean_OP(p1, p2, 0)
+BOP = Boolean_OP(p1, p2, op)
 BOP.create_SweepEvent()
 BOP.cutting_edge()
 BOP.joining_edge()
@@ -29,7 +64,6 @@ for k in result.get_polygons():
     InOut.append(True)
     # print(tmp)
 
-print(vertices)
 
 for i, poly1 in enumerate(vertices):
     for j, poly2 in enumerate(vertices):
@@ -38,7 +72,6 @@ for i, poly1 in enumerate(vertices):
                 InOut[i] = False
             else:
                 InOut[i] = True
-    # print(InOut[i])
 
 for i, poly in enumerate(vertices):
     if InOut[i] == True:
