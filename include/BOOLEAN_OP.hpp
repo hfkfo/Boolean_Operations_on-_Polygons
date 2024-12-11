@@ -80,7 +80,78 @@ public:
 	bool is_empty() const{
 		return contours.empty();
 	}
-	
+	bool operator == (Polygon const &other){
+		if(contours.size() != other.contours.size())
+			return false;
+		size_t j;
+		for(auto p : contours){
+			bool judge = false;
+			for(auto po : other.contours){
+				size_t i;
+				if(po.size() != p.size())
+					continue;
+				for(i = 0 ; i < po.size() ; i++){
+					if(p[0] == po[i]){
+						break;
+					}
+				}
+				if(i == po.size())
+					continue;
+				j = 1;
+				size_t tmp = i;
+				if(i == 0){
+					tmp = po.size() - 1;
+					if(po[tmp] == p[j]){
+						while (po[tmp] == p[j] && j < p.size())
+						{
+							tmp--;
+							j++;
+						}
+						if(j == p.size()){
+							judge = true;
+							break;
+						}
+					}
+				}
+				else if(po[tmp - 1] == p[j]){
+					tmp--;
+					while (po[tmp] == p[j] && j < p.size())
+					{
+						tmp--;
+						j++;
+						if(tmp < 0){
+							tmp = po.size() - 1;
+						}
+					}
+					if(j == p.size()){
+						judge = true;
+						break;
+					}
+				}
+				j = 1;
+				tmp = i;
+				if(po[tmp + 1] == p[1]){
+					tmp++;
+					while (po[tmp] == p[j] && j < p.size())
+					{
+						tmp++;
+						j++;
+						if(tmp == po.size()){
+							tmp = 0;
+						}
+					}
+					if(j == p.size()){
+						judge = true;
+						break;
+					}
+				}
+			}
+			if(judge == false){
+				return false;
+			}
+		}
+		return true;
+	}
 };
 class Boolean_OP{
 public:

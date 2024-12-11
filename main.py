@@ -29,7 +29,7 @@ for k in result.get_polygons():
     InOut.append(True)
     # print(tmp)
 
-
+print(vertices)
 
 for i, poly1 in enumerate(vertices):
     for j, poly2 in enumerate(vertices):

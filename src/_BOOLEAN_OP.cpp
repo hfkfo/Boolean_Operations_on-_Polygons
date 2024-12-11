@@ -416,7 +416,8 @@ PYBIND11_MODULE(_BOOLEAN_OP, m){
         .def(pybind11::init<vector<vector<pair<double, double>>>>())
 		.def(pybind11::init<>())
 		.def("get_polygons", &Polygon::get_polygons)
-		.def("is_empty", &Polygon::is_empty);
+		.def("is_empty", &Polygon::is_empty)
+		.def("__eq__", &Polygon::operator==);
 	pybind11::class_<Point>(m, "Point")
 		.def_readwrite("x", &Point:: x)
 		.def_readwrite("y", &Point:: y);
