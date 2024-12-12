@@ -10,6 +10,9 @@ p4 = Polygon([[(4.0,1.0),(7.0,1.0),(7.0,5.0),(4.0,5.0)]])
 p5 = Polygon([[(2.0, 7.0), (2.0, 3.0), (4.0, 3.0), (4.0, 1.0), (7.0, 1.0), (7.0, 3.0), (8.0, 3.0), (8.0, 7.0)],
               [(3.0, 6.0), (3.0, 4.0), (4.0, 4.0), (4.0, 5.0), (5.0, 5.0), (5.0, 6.0)]])
 
+p6 = Polygon([[(4.0,1.0),(7.0,1.0),(7.0,5.0),(4.0,5.0)]])
+p7 = Polygon([[(1.0,1.0),(4.0,1.0),(4.0,5.0),(1.0,5.0)]])
+p8 = Polygon([[(4.0,5.0), (1.0,5.0), (1.0,1.0), (4.0,1.0), (7.0,1.0), (7.0,5.0)]])
 
 def test_zero():
     result = Polygon()
@@ -29,3 +32,18 @@ def test_equal():
     BOP.made_result(result)
     assert result == p5
     
+def test_merge():
+    result = Polygon()
+    BOP = Boolean_OP(p6, p7, 0)
+    BOP.create_SweepEvent()
+    BOP.cutting_edge()
+    BOP.joining_edge()
+    BOP.made_result(result)
+    vertices = []
+    for k in result.get_polygons():
+        tmp = []
+        for i in k:
+            tmp.append((i.x, i.y))
+        vertices.append(tmp)
+    print(vertices)
+    assert result == p8

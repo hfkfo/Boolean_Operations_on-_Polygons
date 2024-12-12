@@ -3,7 +3,7 @@ CXXFLAGS = -O3 -Wall -shared -std=c++11 -fPIC `python3 -m pybind11 --includes`
 OBJ = _BOOLEAN_OP.so
 all: $(OBJ)
 
-_BOOLEAN_OP.so: src/_BOOLEAN_OP.cpp include/BOOLEAN_OP.hpp
+_BOOLEAN_OP.so: src/_BOOLEAN_OP.cpp include/BOOLEAN_OP.hpp include/Polygon.hpp
 	$(CXX) $(CXXFLAGS) $<  -I include `python3-config --includes --ldflags` -o $@ 
 
 
