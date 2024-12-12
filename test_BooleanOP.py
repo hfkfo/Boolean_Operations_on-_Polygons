@@ -39,11 +39,4 @@ def test_merge():
     BOP.cutting_edge()
     BOP.joining_edge()
     BOP.made_result(result)
-    vertices = []
-    for k in result.get_polygons():
-        tmp = []
-        for i in k:
-            tmp.append((i.x, i.y))
-        vertices.append(tmp)
-    print(vertices)
     assert result == p8
