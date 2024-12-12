@@ -4,7 +4,7 @@ OBJ = _BOOLEAN_OP.so
 all: $(OBJ)
 
 _BOOLEAN_OP.so: src/_BOOLEAN_OP.cpp include/BOOLEAN_OP.hpp
-	$(CXX) $(CXXFLAGS) $<  -I include `python3-config --includes --ldflags` -o $@  -lblas -lmkl_rt
+	$(CXX) $(CXXFLAGS) $<  -I include `python3-config --includes --ldflags` -o $@ 
 
 
 test:
